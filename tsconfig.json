@@ -13,7 +13,8 @@
     "paths": {
       "@src/*": ["./*"],
       "@logger": ["./services/logger.service"]
-    }
+    },
+    "types": ["vitest/globals"]
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules"]
