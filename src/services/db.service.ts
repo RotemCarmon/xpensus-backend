@@ -49,19 +49,19 @@ const db: {
 
 async function connect() {
   try {
-    console.log('[ DB SERVICE ] Connecting to the database...');
+    logger.info('[ DB SERVICE ] Connecting to the database...');
 
     await db.sequelize.authenticate();
-    console.log('[ DB SERVICE ] Authentication successful');
+    logger.info('[ DB SERVICE ] Authentication successful');
 
-    await defineModels();
-    console.log('[ DB SERVICE ] Models defined');
+    await defineModels(models as Record<string, ModelInitFunction>);
+    logger.info('[ DB SERVICE ] Models defined');
 
     // sync
     const syncOptions: SyncOptions = {};
-    // TODO: In production remove alter
-    // if (isDev) syncOptions.alter = true;
-    syncOptions.alter = true;
+    if (isDev) {
+      syncOptions.force = true;
+    }
 
     await db.sequelize.sync(syncOptions);
 
@@ -74,19 +74,14 @@ async function connect() {
   }
 }
 
-async function defineModels() {
+async function defineModels(models: Record<string, ModelInitFunction>) {
   for (let modelName in models) {
-    db[modelName] = (models as Record<string, ModelInitFunction>)[modelName](sequelize);
+    db[modelName] = models[modelName](sequelize);
   }
-
-    // db.user.belongsTo(db.organization, { foreignKey: 'orgId' });
-    // db.userLocation.belongsTo(db.user, { foreignKey: 'userId', onDelete: 'cascade' });
-    
-    // db.domain.belongsTo(db.organization, { foreignKey: 'orgId', onDelete: 'cascade' });
-    // db.organization.hasMany(db.domain, { foreignKey: 'orgId', as: 'domains' });
 }
 
 export default {
   db,
   connect,
+  defineModels
 };
