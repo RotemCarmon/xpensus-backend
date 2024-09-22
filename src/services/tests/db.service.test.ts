@@ -1,9 +1,3 @@
-// import { vi } from 'vitest';
-import { Sequelize } from 'sequelize';
-import { existsSync, readFileSync } from 'fs';
-import { join } from 'path';
-// import { config } from '@/config';
-import models from '@src/models';
 import logger from '@src/services/logger.service';
 import dbService from '@src/services/db.service';
 
@@ -12,7 +6,6 @@ vi.mock('fs');
 vi.mock('path');
 vi.mock('../config');
 vi.mock('../models');
-// vi.mock('./logger.service');
 
 global.process.exit = vi.fn() as any;
 
@@ -47,7 +40,6 @@ describe('dbService', () => {
 
   describe('defineModels', () => {
     test('should initialize all models', async () => {
-      // const initModel = vi.fn().mockReturnValue('model');
       const initModel = vi.fn().mockReturnValue('model');
 
       const mockModels = {
