@@ -42,14 +42,6 @@ app.use(cors(corsOptions));
 // app.use('/api/auth', authRoutes);
 
 
-// LOGS
-app.get('/api/logs', async (req: Request, res: Response) => {
-  const tail = req.query.tail;
-  const numberTail = !tail ? undefined : typeof tail !== 'number' ? Number(tail) : tail;
-  const logs = await logger.getLogs(numberTail);
-  res.send(`<pre>${logs}</pre>`);
-});
-
 // HEALTH CHECK
 app.get('/health', (req: Request, res: Response) => {
   res.send('Successfully connected to the server!!!!');
