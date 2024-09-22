@@ -1,7 +1,7 @@
 import { Sequelize, DataTypes, Model, Optional } from 'sequelize';
 import { Group as GroupAttributes, GroupStatus } from '../../types/Group';
 
-interface GroupCreationAttributes extends Optional<GroupAttributes, 'id'> {}
+interface GroupCreationAttributes extends Optional<GroupAttributes, 'id' | 'createdAt' | 'updatedAt'> {}
 
 export class Group extends Model<GroupAttributes, GroupCreationAttributes> implements GroupAttributes {
   public id!: number;
