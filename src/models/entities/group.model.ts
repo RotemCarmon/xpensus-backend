@@ -20,6 +20,7 @@ export const initModel = (sequelize: Sequelize): typeof Group => {
     {
       id: {
         type: DataTypes.INTEGER,
+        autoIncrement: true,
         primaryKey: true,
       },
       name: {
@@ -60,7 +61,7 @@ export const initModel = (sequelize: Sequelize): typeof Group => {
     },
     {
       sequelize,
-      tableName: 'group',
+      tableName: 'groups',
     }
   );
 
