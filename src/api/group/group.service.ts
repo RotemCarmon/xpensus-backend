@@ -14,9 +14,14 @@ async function getGroupById(groupId: string): Promise<Group | null> {
   return group;
 }
 
+async function createGroup(group: Group): Promise<Group> {
+  return db.group.create(group);
+}
+
 export const groupService = {
   getGroups,
   getGroupById,
+  createGroup
 };
 
 function buildCriteria(filter: any) {

@@ -23,7 +23,18 @@ async function getGroupById(req: Request, res: Response, next: NextFunction) {
   }
 }
 
+async function createGroup(req: Request, res: Response, next: NextFunction) {
+  try {
+    const group = req.body;
+    const newGroup = await groupService.createGroup(group);
+    res.json(newGroup);
+  } catch (error: any) {
+    next(new BadRequestError(error.message));
+  }
+}
+
 export default {
   getGroups,
-  getGroupById
+  getGroupById,
+  createGroup
 };
