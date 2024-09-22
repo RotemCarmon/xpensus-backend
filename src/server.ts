@@ -37,10 +37,9 @@ const corsOptions: CorsOptions = {
 app.use(cors(corsOptions));
 
 // ROUTES
-// import authRoutes from './api/auth/auth.routes';
+import groupRoutes from './api/group/group.routes';
 
-// app.use('/api/auth', authRoutes);
-
+app.use('/api/group', groupRoutes);
 
 // HEALTH CHECK
 app.get('/health', (req: Request, res: Response) => {
