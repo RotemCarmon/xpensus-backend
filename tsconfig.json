@@ -12,7 +12,8 @@
     "baseUrl": "src",
     "paths": {
       "@src/*": ["./*"],
-      "@logger": ["./services/logger.service"]
+      "@logger": ["./services/logger.service"],
+      "@error": ["./models/errors"]
     },
     "types": ["vitest/globals"]
   },

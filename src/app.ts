@@ -2,8 +2,9 @@ import * as moduleAlias from 'module-alias';
 
 // --- Register aliases ---
 moduleAlias.addAliases({
-  '@src': __dirname, // Assuming your dist structure mirrors your src structure
-  '@logger': __dirname + '/services/logger.service', // Adjust the path as needed
+  '@src': __dirname,
+  '@logger': __dirname + '/services/logger.service',
+  '@error': __dirname + '/models/errors',
 });
 
 import app from './server';
