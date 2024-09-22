@@ -60,7 +60,7 @@ async function connect() {
     // sync
     const syncOptions: SyncOptions = {};
     if (isDev) {
-      syncOptions.force = true;
+      // syncOptions.force = true;
     }
 
     await db.sequelize.sync(syncOptions);
@@ -83,5 +83,5 @@ async function defineModels(models: Record<string, ModelInitFunction>) {
 export default {
   db,
   connect,
-  defineModels
+  defineModels,
 };
