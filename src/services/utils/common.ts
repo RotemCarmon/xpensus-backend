@@ -13,4 +13,7 @@ export function generateUniqueToken(): string {
   return `${randomPart}-${timestamp}`;
 }
 
-export function validateEmail(email: string): boolean {  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;  return regex.test(email);}
+export function validateEmail(email: string): boolean {
+  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return regex.test(email);
+}
