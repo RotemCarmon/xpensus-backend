@@ -1,5 +1,6 @@
 import logger from '@src/services/logger.service';
 import dbService from '@src/services/db.service';
+import { Model } from 'sequelize';
 
 vi.mock('sequelize');
 vi.mock('fs');
@@ -16,6 +17,9 @@ describe('dbService', () => {
 
   afterEach(() => {
     vi.clearAllMocks();
+  });
+  afterAll(() => {
+    vi.restoreAllMocks();
   });
 
   describe('connect', () => {
@@ -40,16 +44,22 @@ describe('dbService', () => {
 
   describe('defineModels', () => {
     test('should initialize all models', async () => {
-      const initModel = vi.fn().mockReturnValue('model');
+      const initModel = vi.fn().mockReturnValue({
+        belongsToMany: vi.fn(),
+        belongsTo: vi.fn(),
+        hasMany: vi.fn(),
+      } as unknown as Model);
 
       const mockModels = {
         group: initModel,
         user: initModel,
+        groupInvitation: initModel,
+        groupMember: initModel,
       };
 
       await dbService.defineModels(mockModels);
 
-      expect(initModel).toHaveBeenCalledTimes(2);
+      expect(initModel).toHaveBeenCalledTimes(4);
       expect(dbService.db.group).toBeDefined();
       expect(dbService.db.user).toBeDefined();
     });
