@@ -7,7 +7,8 @@ interface GroupMemberCreationAttributes extends Optional<GroupMemberAttributes, 
 export class GroupMember extends Model<GroupMemberAttributes, GroupMemberCreationAttributes> implements GroupMemberAttributes {
   id!: number;
   groupId!: number;
-  userId!: number;
+  userId!: number | null;
+  invitationId!: number | null;
   status!: GroupMemberStatus;
   joinedAt!: Date | null;
   leftAt!: Date | null;
@@ -15,7 +16,7 @@ export class GroupMember extends Model<GroupMemberAttributes, GroupMemberCreatio
   updatedAt!: Date;
 }
 
-export function initModel(sequelize: Sequelize) {
+export const initModel = (sequelize: Sequelize): typeof GroupMember => {
   GroupMember.init(
     {
       id: {
@@ -36,6 +37,14 @@ export function initModel(sequelize: Sequelize) {
         primaryKey: true,
         references: {
           model: dbService.db.user,
+          key: 'id',
+        },
+      },
+      invitationId: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        references: {
+          model: dbService.db.groupInvitation,
           key: 'id',
         },
       },
@@ -71,4 +80,6 @@ export function initModel(sequelize: Sequelize) {
       timestamps: true,
     }
   );
-}
+
+  return GroupMember;
+};

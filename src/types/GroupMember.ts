@@ -1,7 +1,8 @@
 export interface GroupMember {
   id: number;
   groupId: number;
-  userId: number
+  userId: number | null;
+  invitationId: number | null;
   status: GroupMemberStatus;
   joinedAt: Date | null;
   leftAt: Date | null;
