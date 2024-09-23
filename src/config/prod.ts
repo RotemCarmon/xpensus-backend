@@ -20,4 +20,5 @@ export const prod: Config = {
   },
   encryptSalt: process.env.ENCRYPT_SALT,
   accessTokenSecret: process.env.ACCESS_TOKEN_SECRET,
+  apiUrl: process.env.API_URL
 };

@@ -20,5 +20,6 @@ export const dev: Config = {
     url: process.env.REDIS_URL,
   },
   encryptSalt: process.env.ENCRYPT_SALT || 10,
-  accessTokenSecret: process.env.ACCESS_TOKEN_SECRET
+  accessTokenSecret: process.env.ACCESS_TOKEN_SECRET,
+  apiUrl: process.env.API_URL || 'http://localhost:3535',
 };
