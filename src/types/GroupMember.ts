@@ -2,14 +2,14 @@ export interface GroupMember {
   id: number;
   groupId: number;
   userId: number
-  status: MemberStatus;
-  joinedAt: Date;
-  leftAt: Date;
+  status: GroupMemberStatus;
+  joinedAt: Date | null;
+  leftAt: Date | null;
   createdAt: Date;
   updatedAt: Date;
 }
 
-export enum MemberStatus {
+export enum GroupMemberStatus {
   INVITED = 'invited',
   JOINED = 'joined',
   DECLINED = 'declined',
