@@ -9,7 +9,15 @@ export const prod: Config = {
     name: process.env.DB_NAME,
     port: process.env.DB_PORT,
   },
-
+  email: {
+    host: process.env.EMAIL_HOST,
+    port: process.env.EMAIL_PORT,
+    user: process.env.EMAIL_USER,
+    password: process.env.EMAIL_TRANSPORT_PASSWORD,
+  },
+  redis: {
+    url: process.env.REDIS_URL,
+  },
   encryptSalt: process.env.ENCRYPT_SALT,
   accessTokenSecret: process.env.ACCESS_TOKEN_SECRET,
 };
