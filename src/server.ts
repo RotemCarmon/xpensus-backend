@@ -9,11 +9,10 @@ import expressWinston from './middlewares/express-winston.middleware';
 import logger from './services/logger.service';
 import dbService from './services/db.service';
 
-
 const app: Express = express();
 const httpServer = http.createServer(app);
 
-dbService.connect()
+dbService.connect();
 
 // MIDDLEWARES
 app.use(express.json());
@@ -29,16 +28,16 @@ app.use(expressWinston);
 
 // CORS
 const corsOptions: CorsOptions = {
-  origin: [
-    /^https?:\/\/localhost(:[0-9]+)?$/
-  ],
+  origin: [/^https?:\/\/localhost(:[0-9]+)?$/],
   credentials: true,
 };
 app.use(cors(corsOptions));
 
 // ROUTES
+import authRoutes from './api/auth/auth.routes';
 import groupRoutes from './api/group/group.routes';
 
+app.use('/api/auth', authRoutes);
 app.use('/api/group', groupRoutes);
 
 // HEALTH CHECK
