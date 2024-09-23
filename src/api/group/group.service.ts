@@ -10,7 +10,7 @@ async function getGroups(filterBy = {}): Promise<Group[]> {
   return groups;
 }
 
-async function getGroupById(groupId: string): Promise<Group | null> {
+async function getGroupById(groupId: number): Promise<Group | null> {
   const group = await db.group.findByPk(groupId);
   return group;
 }

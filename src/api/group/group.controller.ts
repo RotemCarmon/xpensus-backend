@@ -16,7 +16,8 @@ async function getGroups(req: Request, res: Response, next: NextFunction) {
 async function getGroupById(req: Request, res: Response, next: NextFunction) {
   try {
     const { groupId } = req.params;
-    const group = await groupService.getGroupById(groupId);
+
+    const group = await groupService.getGroupById(Number(groupId));
     res.json(group);
   } catch (error: any) {
     next(new BadRequestError(error.message));
