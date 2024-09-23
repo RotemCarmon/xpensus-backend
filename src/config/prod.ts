@@ -9,4 +9,6 @@ export const prod: Config = {
     name: process.env.DB_NAME,
     port: process.env.DB_PORT,
   },
+
+  encryptSalt: process.env.ENCRYPT_SALT,
 };

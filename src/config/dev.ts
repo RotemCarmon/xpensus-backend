@@ -10,4 +10,6 @@ export const dev: Config = {
     name: process.env.DB_NAME,
     port: process.env.DB_PORT || 5432,
   },
+
+  encryptSalt: process.env.ENCRYPT_SALT || 10,
 };
