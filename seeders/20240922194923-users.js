@@ -1,7 +1,5 @@
 'use strict';
 
-const { get } = require('http');
-
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
@@ -11,7 +9,7 @@ module.exports = {
         {
           id: 1,
           email: 'example@gmail.com',
-          password: 'password',
+          password: '$2a$10$ou4Eq1KX/ucLojGeoYzs3eEBGw4/4Xacn5fQeGqIFAzAuY7Ympep2', // password,
           username: 'example johns',
           status: 'active',
           lastLoginAt: new Date(),
@@ -21,7 +19,7 @@ module.exports = {
         {
           id: 2,
           email: 'test@gmail.com',
-          password: 'password',
+          password: '$2a$10$ou4Eq1KX/ucLojGeoYzs3eEBGw4/4Xacn5fQeGqIFAzAuY7Ympep2', // password,
           username: 'test testy',
           status: 'active',
           lastLoginAt: new Date(),
@@ -34,11 +32,6 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    /**
-     * Add commands to revert seed here.
-     *
-     * Example:
-     * await queryInterface.bulkDelete('People', null, {});
-     */
+    return queryInterface.bulkDelete('users', null, {});
   },
 };
