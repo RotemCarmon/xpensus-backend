@@ -10,6 +10,8 @@ export interface GroupMember {
   updatedAt: Date;
 }
 
+export interface GroupMemberCreationAttributes extends Omit<GroupMember, 'id' | 'createdAt' | 'updatedAt' | 'leftAt' | 'joinedAt'> {}
+
 export enum GroupMemberStatus {
   INVITED = 'invited',
   JOINED = 'joined',
