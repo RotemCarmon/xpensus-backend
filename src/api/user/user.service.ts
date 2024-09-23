@@ -2,7 +2,7 @@ import dbService from '@src/services/db.service';
 import { Criteria, FilterAttributes } from '@src/types/Common';
 
 async function getUserBy(filter: FilterAttributes) {
-  const criteria = createCriteria({ filter });
+  const criteria = createCriteria(filter);
   return dbService.db.user.findOne(criteria);
 }
 
@@ -17,7 +17,7 @@ async function createUser(user: any) {
 export const userService = {
   getUserById,
   getUserBy,
-  createUser
+  createUser,
 };
 
 function createCriteria(filter: FilterAttributes) {
