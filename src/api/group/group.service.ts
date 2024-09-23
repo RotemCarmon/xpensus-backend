@@ -1,6 +1,7 @@
 import { Op } from 'sequelize';
 import { Group } from '@src/types/Group';
 import dbService from '@src/services/db.service';
+import { Criteria } from '@src/types/Common';
 const { db } = dbService;
 
 async function getGroups(filterBy = {}): Promise<Group[]> {
@@ -25,7 +26,7 @@ export const groupService = {
 };
 
 function buildCriteria(filter: any) {
-  const criteria: any = {
+  const criteria: Criteria = {
     where: {},
     order: [],
   };
