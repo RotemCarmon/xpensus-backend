@@ -8,11 +8,17 @@ import attachTraceIdToALS from './middlewares/traceId.middleware';
 import expressWinston from './middlewares/express-winston.middleware';
 import logger from './services/logger.service';
 import dbService from './services/db.service';
+import redisService from './services/redis.service';
 
 const app: Express = express();
 const httpServer = http.createServer(app);
 
 dbService.connect();
+
+// Redis server initialization
+(async () => {
+  await redisService.init()
+})()
 
 // MIDDLEWARES
 app.use(express.json());
