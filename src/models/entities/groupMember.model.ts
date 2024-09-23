@@ -34,7 +34,7 @@ export const initModel = (sequelize: Sequelize): typeof GroupMember => {
       },
       userId: {
         type: DataTypes.INTEGER,
-        primaryKey: true,
+        allowNull: true,
         references: {
           model: dbService.db.user,
           key: 'id',
@@ -42,7 +42,7 @@ export const initModel = (sequelize: Sequelize): typeof GroupMember => {
       },
       invitationId: {
         type: DataTypes.INTEGER,
-        primaryKey: true,
+        allowNull: true,
         references: {
           model: dbService.db.groupInvitation,
           key: 'id',

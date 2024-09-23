@@ -5,7 +5,7 @@ import dbService from '@src/services/db.service';
 interface GroupInvitationCreationAttributes extends Optional<GroupInvitationAttributes, 'id' | 'createdAt' | 'updatedAt'> {}
 
 export class GroupInvitation extends Model<GroupInvitationAttributes, GroupInvitationCreationAttributes> implements GroupInvitationAttributes {
-  public id!: string;
+  public id!: number;
   public email!: string;
   public groupId!: number;
   public userId!: number | null;
@@ -30,7 +30,6 @@ export const initModel = (sequelize: Sequelize): typeof GroupInvitation => {
       },
       groupId: {
         type: DataTypes.INTEGER,
-        primaryKey: true,
         allowNull: false,
         references: {
           model: dbService.db.group,
@@ -39,7 +38,6 @@ export const initModel = (sequelize: Sequelize): typeof GroupInvitation => {
       },
       userId: {
         type: DataTypes.INTEGER,
-        primaryKey: true,
         references: {
           model: dbService.db.user,
           key: 'id',
@@ -47,7 +45,6 @@ export const initModel = (sequelize: Sequelize): typeof GroupInvitation => {
       },
       invitedBy: {
         type: DataTypes.INTEGER,
-        primaryKey: true,
         allowNull: false,
         references: {
           model: dbService.db.user,

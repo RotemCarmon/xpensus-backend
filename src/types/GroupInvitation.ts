@@ -1,5 +1,5 @@
 export interface GroupInvitation {
-  id: string;
+  id: number;
   email: string;
   groupId: number;
   userId: number | null;
