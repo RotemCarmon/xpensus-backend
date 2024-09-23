@@ -1,9 +1,10 @@
 import bcrypt from 'bcryptjs';
 import { jwtService } from '@src/services/jwt.service';
 import { userService } from '@src/api/user/user.service';
+import { UserStatus } from '@src/types/User';
 
 async function login(email: string, password: string) {
-  const user = await userService.getUserBy({ email });
+  const user = await userService.getUserBy({ email, status: UserStatus.ACTIVE });
   if (!user) {
     throw new Error('User not found');
   }
@@ -16,13 +17,6 @@ async function login(email: string, password: string) {
   const token = await jwtService.generateToken({ id: user.id });
   return { token };
 }
-
-// async function signup(email: string, password: string) {
-//   const hashedPassword = await bcrypt.hash(password, 10);
-//   const user = await userService.createUser({ email, password: hashedPassword });
-//   return user;
-// }
-
 
 export const authService = {
   login,
