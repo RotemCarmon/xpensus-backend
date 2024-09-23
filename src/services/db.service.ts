@@ -78,6 +78,14 @@ async function defineModels(models: Record<string, ModelInitFunction>) {
   for (let modelName in models) {
     db[modelName] = models[modelName](sequelize);
   }
+
+  db.user.belongsToMany(db.group, { through: 'group_member', foreignKey: 'userId', otherKey: 'groupId' });
+  db.group.belongsToMany(db.user, { through: 'group_member', as: 'members', foreignKey: 'groupId', otherKey: 'userId' });
+  
+  db.group.belongsTo(db.user, { as: 'creator', foreignKey: 'createdBy' });
+  db.user.hasMany(db.group, { as: 'createdGroups', foreignKey: 'createdBy' });
+
+
 }
 
 export default {
