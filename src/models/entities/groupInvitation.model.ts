@@ -12,7 +12,7 @@ export class GroupInvitation extends Model<GroupInvitationAttributes, GroupInvit
   public isRegistered!: boolean;
   public acceptedAt!: Date | null;
   public declinedAt!: Date | null;
-  public expiredAt!: Date;
+  public expiresAt!: Date;
   public token!: string;
   public status!: GroupInvitationStatus;
   public invitedBy!: string;
@@ -67,7 +67,7 @@ export const initModel = (sequelize: Sequelize): typeof GroupInvitation => {
         type: DataTypes.DATE,
         allowNull: true,
       },
-      expiredAt: {
+      expiresAt: {
         type: DataTypes.DATE,
         allowNull: false,
       },

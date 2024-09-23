@@ -6,7 +6,7 @@ export interface GroupInvitation {
   isRegistered: boolean;
   acceptedAt: Date | null;
   declinedAt: Date | null;
-  expiredAt: Date;
+  expiresAt: Date;
   token: string;
   status: GroupInvitationStatus;
   invitedBy: string;
