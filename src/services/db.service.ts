@@ -79,21 +79,22 @@ async function defineModels(models: Record<string, ModelInitFunction>) {
     db[modelName] = models[modelName](sequelize);
   }
 
-  db.user.belongsToMany(db.group, { through: 'group_member', foreignKey: 'userId', otherKey: 'groupId' });
-  db.group.belongsToMany(db.user, { through: 'group_member', as: 'members', foreignKey: 'groupId', otherKey: 'userId' });
+  db.user.belongsToMany(db.group, { through: db.groupMember, foreignKey: 'userId', otherKey: 'groupId' });
+  db.group.belongsToMany(db.user, { through: db.groupMember, as: 'members', foreignKey: 'groupId', otherKey: 'userId' });
 
   db.group.belongsTo(db.user, { as: 'creator', foreignKey: 'createdBy' });
   db.user.hasMany(db.group, { as: 'createdGroups', foreignKey: 'createdBy' });
 
-  db.groupMember.belongsTo(db.groupInvitation, { foreignKey: 'invitationId' });
-
+  
   db.group.hasMany(db.groupInvitation, { foreignKey: 'groupId' });
   db.user.hasMany(db.groupInvitation, { foreignKey: 'userId' });
   db.groupInvitation.belongsTo(db.group, { foreignKey: 'groupId' });
   db.groupInvitation.belongsTo(db.user, { foreignKey: 'userId' });
-
+  
   db.groupInvitation.belongsTo(db.user, { as: 'invitedByUser', foreignKey: 'invitedBy' });
   db.user.hasMany(db.groupInvitation, { as: 'invitedGroupInvitations', foreignKey: 'invitedBy' });
+  
+  db.groupMember.belongsTo(db.groupInvitation, { foreignKey: 'invitationId' });
 }
 
 export default {
