@@ -14,7 +14,12 @@ describe('authService', () => {
     test('should return token', async () => {
       const email = 'example@gmail.com';
       const password = 'password';
-      const user = { id: 1, email, password: 'hashedPassword' };
+      const user = {
+        id: 1,
+        email,
+        password: 'hashedPassword',
+        get: vi.fn(() => ({})),
+      };
       const token = 'token';
 
       userService.getUserBy = vi.fn().mockResolvedValue(user);

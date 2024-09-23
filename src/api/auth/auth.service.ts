@@ -13,8 +13,8 @@ async function login(email: string, password: string) {
   if (!isValid) {
     throw new Error('Invalid password');
   }
-
-  const token = await jwtService.generateToken({ id: user.id });
+  const { password: _, ...plainUser } = user.get({ plain: true });
+  const token = await jwtService.generateToken(plainUser, { expiresIn: '1d' });
   return { token };
 }
 
