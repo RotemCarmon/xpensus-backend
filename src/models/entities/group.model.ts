@@ -1,5 +1,8 @@
 import { Sequelize, DataTypes, Model, Optional } from 'sequelize';
 import { Group as GroupAttributes, GroupStatus } from '../../types/Group';
+import { User } from './user.model';
+import { GroupMember } from './groupMember.model';
+import { GroupInvitation } from './groupInvitation.model';
 
 interface GroupCreationAttributes extends Optional<GroupAttributes, 'id' | 'createdAt' | 'updatedAt'> {}
 
@@ -13,6 +16,12 @@ export class Group extends Model<GroupAttributes, GroupCreationAttributes> imple
   public createdBy!: number;
   public createdAt!: Date;
   public readonly updatedAt!: Date;
+
+  static associate() {
+    Group.belongsToMany(User, { through: GroupMember, as: 'members', foreignKey: 'groupId', otherKey: 'userId' });
+    Group.belongsTo(User, { as: 'creator', foreignKey: 'createdBy' });
+    Group.hasMany(GroupInvitation, { foreignKey: 'groupId' });
+  }
 }
 
 export const initModel = (sequelize: Sequelize): typeof Group => {

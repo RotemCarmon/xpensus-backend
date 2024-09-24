@@ -1,14 +1,14 @@
-import { groupService } from '@src/api/group/group.service';
-import { User, UserStatus } from '@src/types/User';
-import { userService } from '../user/user.service';
-import { generateUniqueToken } from '@src/services/utils/common';
 import { subWeeks } from 'date-fns';
-import { groupMemberService } from '../group-member/groupMember.service';
-import { GroupMemberStatus } from '@src/types/GroupMember';
-import dbService from '@src/services/db.service';
-import { emailService } from '@src/services/email/email.service';
 import config from '@src/config';
-const { db } = dbService;
+import { GroupInvitationModel } from '@src/models';
+import { groupService } from '@src/api/group/group.service';
+import { groupMemberService } from '../group-member/groupMember.service';
+import { userService } from '../user/user.service';
+import { emailService } from '@src/services/email/email.service';
+import { generateUniqueToken } from '@src/services/utils/common';
+import { User, UserStatus } from '@src/types/User';
+import { GroupMemberCreationAttributes } from '@src/types/GroupMember';
+import { GroupMemberStatus } from '@src/types/GroupMember';
 
 export interface inviteProps {
   groupId: number;
@@ -38,7 +38,7 @@ async function invite({ groupId, userEmail, invitedBy }: inviteProps) {
   }
 
   // prepare group member to create
-  const groupMemberToCreate = {
+  const groupMemberToCreate: GroupMemberCreationAttributes = {
     groupId,
     invitationId: invitation.id,
     userId: null,
@@ -67,7 +67,7 @@ async function invite({ groupId, userEmail, invitedBy }: inviteProps) {
     },
     templateName: 'groupInvitation',
   });
-  
+
   return invitation;
 }
 
@@ -84,7 +84,7 @@ async function createInvitation({ groupId, userId, email, invitedBy }: createInv
     expiresAt,
   };
 
-  return db.groupInvitation.create(invitationToCreate);
+  return GroupInvitationModel.create(invitationToCreate);
 }
 
 export const groupInvitationService = {

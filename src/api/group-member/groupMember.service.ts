@@ -1,9 +1,8 @@
-import dbService from '@src/services/db.service';
+import { GroupMemberModel } from '@src/models';
 import { GroupMember, GroupMemberCreationAttributes } from '@src/types/GroupMember';
-const { db } = dbService;
 
 async function createGroupMember(memberToCreate: GroupMemberCreationAttributes): Promise<GroupMember> {
-  return db.groupMember.create(memberToCreate);
+  return GroupMemberModel.create(memberToCreate);
 }
 
 export const groupMemberService = {

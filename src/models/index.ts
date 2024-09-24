@@ -1,11 +1,20 @@
-import { initModel as groupInitModel } from './entities/group.model';
-import { initModel as userInitModel } from './entities/user.model';
-import { initModel as groupMemberInitModel } from './entities/groupMember.model';
-import { initModel as groupInvitationInitModel } from './entities/groupInvitation.model';
+import { Sequelize } from 'sequelize';
 
-export default {
-  group: groupInitModel,
-  user: userInitModel,
-  groupInvitation: groupInvitationInitModel,
-  groupMember: groupMemberInitModel,
-};
+import { Group, initModel as initGroupModel } from './entities/group.model';
+import { User, initModel as initUserModel } from './entities/user.model';
+import { GroupMember, initModel as initGroupMemberModel } from './entities/groupMember.model';
+import { GroupInvitation, initModel as initGroupInvitationModel } from './entities/groupInvitation.model';
+
+export function initModels(sequelize: Sequelize) {
+  const groupModel = initGroupModel(sequelize);
+  const userModel = initUserModel(sequelize);
+  const groupInvitationModel = initGroupInvitationModel(sequelize);
+  const groupMemberModel = initGroupMemberModel(sequelize);
+
+  groupModel.associate?.();
+  userModel.associate?.();
+  groupInvitationModel.associate?.();
+  groupMemberModel.associate?.();
+}
+
+export { GroupMember as GroupMemberModel, Group as GroupModel, User as UserModel, GroupInvitation as GroupInvitationModel };

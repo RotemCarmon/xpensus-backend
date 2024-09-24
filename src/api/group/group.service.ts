@@ -1,28 +1,27 @@
-import { Op } from 'sequelize';
+import { FindOptions, Op } from 'sequelize';
 import { Group } from '@src/types/Group';
-import dbService from '@src/services/db.service';
 import { Criteria } from '@src/types/Common';
-const { db } = dbService;
+import { GroupModel } from '@src/models';
 
 async function getGroups(filterBy = {}): Promise<Group[]> {
   const criteria = buildCriteria(filterBy);
-  const groups = await db.group.findAll(criteria);
+  const groups = await GroupModel.findAll(criteria as FindOptions<Group>);
   return groups;
 }
 
 async function getGroupById(groupId: number): Promise<Group | null> {
-  const group = await db.group.findByPk(groupId);
+  const group = await GroupModel.findByPk(groupId);
   return group;
 }
 
 async function createGroup(group: Group): Promise<Group> {
-  return db.group.create(group);
+  return GroupModel.create(group);
 }
 
 export const groupService = {
   getGroups,
   getGroupById,
-  createGroup
+  createGroup,
 };
 
 function buildCriteria(filter: any) {

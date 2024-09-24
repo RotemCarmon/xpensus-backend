@@ -1,6 +1,8 @@
 import { Sequelize, DataTypes, Model, Optional } from 'sequelize';
 import { GroupMember as GroupMemberAttributes, GroupMemberStatus } from '../../types/GroupMember';
-import dbService from '@src/services/db.service';
+import { User } from './user.model';
+import { Group } from './group.model';
+import { GroupInvitation } from './groupInvitation.model';
 
 interface GroupMemberCreationAttributes extends Optional<GroupMemberAttributes, 'id' | 'createdAt' | 'updatedAt'> {}
 
@@ -14,6 +16,10 @@ export class GroupMember extends Model<GroupMemberAttributes, GroupMemberCreatio
   leftAt!: Date | null;
   createdAt!: Date;
   updatedAt!: Date;
+
+  static associate() {
+    GroupMember.belongsTo(GroupInvitation, { foreignKey: 'invitationId' });
+  }
 }
 
 export const initModel = (sequelize: Sequelize): typeof GroupMember => {
@@ -28,7 +34,7 @@ export const initModel = (sequelize: Sequelize): typeof GroupMember => {
         type: DataTypes.INTEGER,
         primaryKey: true,
         references: {
-          model: dbService.db.group,
+          model: Group,
           key: 'id',
         },
       },
@@ -36,7 +42,7 @@ export const initModel = (sequelize: Sequelize): typeof GroupMember => {
         type: DataTypes.INTEGER,
         allowNull: true,
         references: {
-          model: dbService.db.user,
+          model: User,
           key: 'id',
         },
       },
@@ -44,7 +50,7 @@ export const initModel = (sequelize: Sequelize): typeof GroupMember => {
         type: DataTypes.INTEGER,
         allowNull: true,
         references: {
-          model: dbService.db.groupInvitation,
+          model: GroupInvitation,
           key: 'id',
         },
       },

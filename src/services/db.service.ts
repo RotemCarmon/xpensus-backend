@@ -3,8 +3,7 @@ import { existsSync, readFileSync } from 'fs';
 import { join } from 'path';
 
 import config from '../config';
-import models from '../models';
-import { ModelInitFunction } from '../types/Model';
+import { initModels } from '../models';
 import logger from './logger.service';
 
 const { isDev, db: _db } = config;
@@ -38,24 +37,15 @@ const connectionOptions = {
 
 const sequelize = new Sequelize(_db.name, _db.user, _db.password, connectionOptions);
 
-const db: {
-  Sequelize: typeof Sequelize;
-  sequelize: Sequelize;
-  [key: string]: any;
-} = {
-  Sequelize: Sequelize,
-  sequelize: sequelize,
-};
-
 async function connect() {
   try {
     logger.info('[ DB SERVICE ] Connecting to the database...');
 
-    await db.sequelize.authenticate();
+    await sequelize.authenticate();
     logger.info('[ DB SERVICE ] Authentication successful');
 
-    await defineModels(models as Record<string, ModelInitFunction>);
-    logger.info('[ DB SERVICE ] Models defined');
+    initModels(sequelize);
+    logger.info('[ DB SERVICE ] Models initialized');
 
     // sync
     const syncOptions: SyncOptions = {};
@@ -63,7 +53,7 @@ async function connect() {
       // syncOptions.force = true;
     }
 
-    await db.sequelize.sync(syncOptions);
+    await sequelize.sync(syncOptions);
 
     logger.info('[ DB SERVICE ] Database connected successfully!');
 
@@ -74,31 +64,7 @@ async function connect() {
   }
 }
 
-async function defineModels(models: Record<string, ModelInitFunction>) {
-  for (let modelName in models) {
-    db[modelName] = models[modelName](sequelize);
-  }
-
-  db.user.belongsToMany(db.group, { through: db.groupMember, foreignKey: 'userId', otherKey: 'groupId' });
-  db.group.belongsToMany(db.user, { through: db.groupMember, as: 'members', foreignKey: 'groupId', otherKey: 'userId' });
-
-  db.group.belongsTo(db.user, { as: 'creator', foreignKey: 'createdBy' });
-  db.user.hasMany(db.group, { as: 'createdGroups', foreignKey: 'createdBy' });
-
-  
-  db.group.hasMany(db.groupInvitation, { foreignKey: 'groupId' });
-  db.user.hasMany(db.groupInvitation, { foreignKey: 'userId' });
-  db.groupInvitation.belongsTo(db.group, { foreignKey: 'groupId' });
-  db.groupInvitation.belongsTo(db.user, { foreignKey: 'userId' });
-  
-  db.groupInvitation.belongsTo(db.user, { as: 'invitedByUser', foreignKey: 'invitedBy' });
-  db.user.hasMany(db.groupInvitation, { as: 'invitedGroupInvitations', foreignKey: 'invitedBy' });
-  
-  db.groupMember.belongsTo(db.groupInvitation, { foreignKey: 'invitationId' });
-}
-
 export default {
-  db,
+  sequelize,
   connect,
-  defineModels,
 };
