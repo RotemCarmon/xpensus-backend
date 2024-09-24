@@ -15,7 +15,7 @@ export class GroupInvitation extends Model<GroupInvitationAttributes, GroupInvit
   public expiresAt!: Date;
   public token!: string;
   public status!: GroupInvitationStatus;
-  public invitedBy!: string;
+  public invitedBy!: number;
   public createdAt!: Date;
   public updatedAt!: Date;
 }

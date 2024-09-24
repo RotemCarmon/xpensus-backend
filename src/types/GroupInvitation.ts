@@ -9,7 +9,7 @@ export interface GroupInvitation {
   expiresAt: Date;
   token: string;
   status: GroupInvitationStatus;
-  invitedBy: string;
+  invitedBy: number;
   createdAt: Date;
   updatedAt: Date;
 }
