@@ -7,7 +7,7 @@ export const dev: Config = {
     host: process.env.DB_HOST || 'localhost',
     user: process.env.DB_USER || 'rotemc',
     type: process.env.DB_TYPE || 'postgres',
-    name: process.env.DB_NAME,
+    name: process.env.DB_NAME || 'xpensus_dev',
     port: process.env.DB_PORT || 5432,
   },
   email: {
