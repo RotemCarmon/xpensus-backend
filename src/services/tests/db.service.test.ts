@@ -1,17 +1,17 @@
-import logger from '@src/services/logger.service';
+import logger from '@logger';
 import dbService from '@src/services/db.service';
-import { Model } from 'sequelize';
+import * as modelsIndex from '@src/models';
 
 vi.mock('sequelize');
 vi.mock('fs');
 vi.mock('path');
 vi.mock('../config');
-vi.mock('../models');
+vi.mock('@logger');
 
 global.process.exit = vi.fn() as any;
 
 describe('dbService', () => {
-  const spyOnDbAuthenticate = vi.spyOn(dbService.db.sequelize, 'authenticate');
+  const spyOnDbAuthenticate = vi.spyOn(dbService.sequelize, 'authenticate');
   const spyOnLoggerInfo = vi.spyOn(logger, 'info');
   const spyOnLoggerError = vi.spyOn(logger, 'error');
 
@@ -30,6 +30,13 @@ describe('dbService', () => {
       expect(spyOnLoggerInfo).toHaveBeenCalledWith('[ DB SERVICE ] Database connected successfully!');
     });
 
+    test('should initialize models after authenticating with the database', async () => {
+      const spyOnInitModels = vi.spyOn(modelsIndex, 'initModels');
+      await dbService.connect();
+
+      expect(spyOnInitModels).toHaveBeenCalled();
+    });
+
     test('should log an error and exit process if authentication fails', async () => {
       spyOnDbAuthenticate.mockRejectedValue(new Error('Authentication failed'));
       const spyOnExitProces = vi.spyOn(process, 'exit');
@@ -42,26 +49,5 @@ describe('dbService', () => {
     });
   });
 
-  describe('defineModels', () => {
-    test('should initialize all models', async () => {
-      const initModel = vi.fn().mockReturnValue({
-        belongsToMany: vi.fn(),
-        belongsTo: vi.fn(),
-        hasMany: vi.fn(),
-      } as unknown as Model);
 
-      const mockModels = {
-        group: initModel,
-        user: initModel,
-        groupInvitation: initModel,
-        groupMember: initModel,
-      };
-
-      await dbService.defineModels(mockModels);
-
-      expect(initModel).toHaveBeenCalledTimes(4);
-      expect(dbService.db.group).toBeDefined();
-      expect(dbService.db.user).toBeDefined();
-    });
-  });
 });
