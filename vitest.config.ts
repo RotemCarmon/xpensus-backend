@@ -13,7 +13,8 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@src': path.resolve(__dirname, './src')
+      '@src': path.resolve(__dirname, './src'),
+      '@logger': path.resolve(__dirname, './src/services/logger.service')
     },
   },
 });
